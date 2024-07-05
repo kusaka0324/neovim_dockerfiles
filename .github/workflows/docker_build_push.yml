@@ -31,38 +31,3 @@ jobs:
           tags: kh0324/dotfiles:base
           cache-to: type=local,dest=/tmp/docker-cache
 
-      - name: Build and push for dotfiles image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          file: ./dotfiles/Dockerfile
-          platforms: linux/amd64
-          tags: kh0324/dotfiles:dotfiles
-          cache-from: type=local,src=/tmp/docker-cache
-
-      - name: Build and push for react image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          file: ./react/Dockerfile
-          platforms: linux/amd64
-          tags: kh0324/dotfiles:react
-          cache-from: type=local,src=/tmp/docker-cache
-
-      - name: Build and push for ruby image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          file: ./ruby/Dockerfile
-          platforms: linux/amd64
-          tags: kh0324/dotfiles:ruby
-          cache-from: type=local,src=/tmp/docker-cache
-
-      - name: Build and push for python image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          file: ./python/Dockerfile
-          platforms: linux/amd64
-          tags: kh0324/dotfiles:python
-          cache-from: type=local,src=/tmp/docker-cache
