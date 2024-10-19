@@ -1,9 +1,11 @@
 FROM ubuntu:22.04
 
+#最低限のパッケージのインストール
 RUN apt update && \
     apt-get update && \
     apt install -y curl git ripgrep tar unzip vim wget
 
+#neovimのインストール
 RUN wget https://github.com/neovim/neovim/releases/download/v0.10.0/nvim-linux64.tar.gz && \
     tar -zxvf nvim-linux64.tar.gz && \
     mv nvim-linux64/bin/nvim usr/bin/nvim && \
@@ -12,19 +14,18 @@ RUN wget https://github.com/neovim/neovim/releases/download/v0.10.0/nvim-linux64
     rm -rf nvim-linux64 && \
     rm nvim-linux64.tar.gz
 
-RUN wget https://raw.githubusercontent.com/Shougo/dein-installer.vim/11e9af56fe00edb06d19ee8e7f8bfb222230699b/installer.sh && \
-    sh installer.sh "~/.config/nvim" --use-neovim-config && \
-    rm installer.sh
+#Lazy.nvimのインストール
+RUN mkdir -p ~/.config/nvim && \
+    git clone https://github.com/folke/lazy.nvim.git ~/.config/nvim/lua/lazy.nvim
 
-RUN curl -fsSLO https://deno.land/install.sh && \
-    DENO_INSTALL=/usr/local sh install.sh v1.43.1 && \
-    rm install.sh
-
+#日本語の設定
 RUN apt install -y locales && \
     locale-gen ja_JP.UTF-8
 
+#dotfilesの取得
 RUN git clone https://github.com/kusaka0324/neovim_dotfiles.git dotfiles
 
+#シンボリックリンク設定
 RUN rm ~/.bashrc && \
     rm ~/.config/nvim/init.lua && \
     ln -s /dotfiles/.bashrc ~/.bashrc && \
@@ -32,7 +33,9 @@ RUN rm ~/.bashrc && \
     ln -s /dotfiles/.config/nvim/plugins ~/.config/nvim/plugins && \
     ln -s /dotfiles/.bash_boot_scripts/ ~/.bash_boot_scripts
 
+#nodejsのインストール
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - &&\
     apt install -y nodejs
 
+#neovimの起動
 RUN nvim +:q
