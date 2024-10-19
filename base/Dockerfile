@@ -26,8 +26,8 @@ RUN apt install -y locales && \
 RUN git clone https://github.com/kusaka0324/neovim_dotfiles.git dotfiles
 
 #シンボリックリンク設定
-RUN rm ~/.bashrc && \
-    rm ~/.config/nvim/init.lua && \
+RUN rm -f ~/.bashrc && \
+    rm -f ~/.config/nvim/init.lua && \
     ln -s /dotfiles/.bashrc ~/.bashrc && \
     ln -s /dotfiles/.config/nvim/init.lua ~/.config/nvim/init.lua && \
     ln -s /dotfiles/.config/nvim/plugins ~/.config/nvim/plugins && \
